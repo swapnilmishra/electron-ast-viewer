@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <style>
+    .el-container {
+      height: 100% !important;
+    }
+
+    .CodeMirror {
+      height: 90% !important;
+    }
+  </style>
+  <link rel="stylesheet" href="photon/css/photon.css">
+  <link rel="stylesheet" href="tree/style.css">
+  <link rel="stylesheet" href="codemirror/codemirror.css">
+  <link rel="stylesheet" href="codemirror/material.css">
+  <script src="codemirror/codemirror.js"></script>
+  <script src="codemirror/javascript.js"></script>
+</head>
+
+<body>
+  <div class="window">
+    <div class="window-content">
+      <div class="pane-group">
+        <div class="pane">
+          <div class="el-container">
+            <textarea class="content" id="jsContent" placeholder="Add JS here"></textarea>
+            <button class="btn btn-large btn-primary" id="viewAst">View AST</button>
+          </div>
+        </div>
+        <div class="pane-one-third sidebar">
+          <div id="root" class="el-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  // require('./tree/index.js')
+  require('./editor/index.js')
+</script>
+<script>
+  // You can also require other files to run in this process
+
+    // const template = `
+    //   <div id="holder">
+    //     Drag your file here
+    //   </div>
+    // `
+    // document.body.innerHTML = template
+    // require('./renderer.js')
+</script>
+
+</html>

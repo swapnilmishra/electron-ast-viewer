@@ -1,0 +1,59 @@
+a {
+  margin-top: 4px;
+  color: #fff;
+  display: block;
+  cursor: pointer;
+}
+
+.hide{
+  display: none;
+}
+#root{
+  min-width: 300px;
+  min-height: 400px;
+  padding: 10px;
+  padding-left: 20px;
+  background-color: #000;
+}
+
+.folder{
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.folder:hover{
+  color: #eaedef;
+}
+
+.file{
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  font-style: italic;
+  text-transform: none;
+}
+
+.folder::before {
+    position: absolute;
+    content: '>';
+    left: -8px;
+    font-size: 8px;
+}
+
+.folder.open::before {
+    position: absolute;
+    content: '-';
+    left: -8px;
+    font-size: 8px;
+}
+
+button{
+    background: #e3714d;
+    padding: 5px 10px 5px;
+    border: none;
+    color: #fff;
+    margin-top: 5px;
+}
