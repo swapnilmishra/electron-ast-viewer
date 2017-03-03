@@ -8,46 +8,47 @@ a {
 .hide{
   display: none;
 }
-#root{
+.tree{
   min-width: 300px;
   min-height: 400px;
   padding: 10px;
   padding-left: 20px;
   background-color: #000;
+  overflow: auto;
+  color: #fff;
 }
 
-.folder{
+.root{
   color: #fff;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: bold;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   position: relative;
 }
 
-.folder:hover{
-  color: #eaedef;
+.root:hover{
+  color:#a1a2a2;
 }
 
-.file{
+.leaf{
   color: #fff;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: bold;
   font-style: italic;
   text-transform: none;
 }
 
-.folder::before {
+.root::before,.root.open::before {
     position: absolute;
-    content: '>';
     left: -8px;
-    font-size: 8px;
+    font-size: 10px;
+    line-height: 20px;
 }
-
-.folder.open::before {
-    position: absolute;
+.root::before{
+    content: '>';
+}
+.root.open::before {
     content: '-';
-    left: -8px;
-    font-size: 8px;
 }
 
 button{

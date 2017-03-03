@@ -1,48 +1,48 @@
 // const data = require("./data").data;
+const DEFAULT_MARGIN = 10;
 let docFragment = document.createDocumentFragment();
-let docRoot = document.querySelector("#root");
+let docRoot;
 
-function createFile(name, level, isRoot) {
+function createLeafNode(name, level, isRoot) {
   const el = document.createElement("a");
   // not root element
   if (!isRoot) {
     el.classList.add("hide");
-    el.style.paddingLeft = level + 5 + "px";
+    setElementMargin(el, level);
   }
   el.innerText = name;
-  el.setAttribute("data-type", "file");
-  el.classList.add("file");
+  el.setAttribute("data-type", "leaf");
+  el.classList.add("leaf");
   el.classList.add("element");
   return el;
 }
 
-function createFolder(folderData, level, isRoot) {
+function createRootNode(folderData, level, isRoot) {
   const el = document.createElement("a");
   if (!isRoot) {
-    el.classList.add("folder");
+    el.classList.add("root");
     el.classList.add("hide");
-    el.style.marginLeft = level + 5 + "px";
+    setElementMargin(el, level);
   }
-  // el.setAttribute("_id", folderData._id);
   el.innerText = folderData;
-  el.setAttribute("data-type", "folder");
+  el.setAttribute("data-type", "root");
   el.setAttribute("data-open", false);
-  el.classList.add("folder");
+  el.classList.add("root");
   el.classList.add("element");
   return el;
 }
 
-function createTree(treeData) {
+function createTree(treeData, rootNode) {
   let level = 0;
-
+  docRoot = document.querySelector(rootNode);
   function createComponent(treeElData, el) {
     let newEl;
     if (isLeaf(treeElData)) {
       if (!el) {
-        newEl = createFile(treeElData, level, true);
+        newEl = createLeafNode(treeElData, level, true);
         docFragment.appendChild(newEl);
       } else {
-        newEl = createFile(treeElData, level);
+        newEl = createLeafNode(treeElData, level);
         el.appendChild(newEl);
       }
     } else {
@@ -66,49 +66,48 @@ function createTree(treeData) {
         if (isLeaf(elData)) {
           // first level element
           if (!el) {
-            newEl = createFile(`${key}:${elData}`, level, true);
+            newEl = createLeafNode(`${key}:${elData}`, level, true);
             docFragment.appendChild(newEl);
           } else {
-            newEl = createFile(`${key}:${elData}`, level);
+            newEl = createLeafNode(`${key}:${elData}`, level);
             el.appendChild(newEl);
           }
         } else {
           // first level element
           if (!el) {
             if (!isDataArray) {
-              newEl = createFolder(key, level, true);
+              newEl = createRootNode(key, level, true);
               docFragment.appendChild(newEl);
             }
-
-            // else newEl = createFolder(key, level, true);
           } else {
             if (!isDataArray) {
-              newEl = createFolder(key, level);
+              newEl = createRootNode(key, level);
               el.appendChild(newEl);
             }
-
-            // else newEl = createFolder(key, level);
           }
+
           if (Object.keys(elData).length > 0 || isDataArray) {
             level++;
             createComponent(elData, newEl || el);
-          } else
+          } else {
             // reached end of this subtree, reset the level to 0
             level = 0;
+          }
         }
       }
     }
   }
 
   createComponent(treeData);
+  docRoot.innerHTML = '';
   docRoot.appendChild(docFragment);
 }
 
 function addTreeClickHandlers() {
-  docRoot.removeEventListener("click");
+  docRoot.removeEventListener("click", () => {});
   docRoot.addEventListener("click", function(event) {
     const eventTarget = event.target;
-    if (eventTarget && eventTarget.getAttribute("data-type") === "folder") {
+    if (eventTarget && eventTarget.getAttribute("data-type") === "root") {
       const type = eventTarget.getAttribute("data-type");
       showHideFolderChildrens(eventTarget);
     }
@@ -123,9 +122,9 @@ function showHideFolderChildrens(el) {
   }
 }
 
-function setElementPadding(el, level) {
+function setElementMargin(el, level) {
   if (el && el.style) {
-    el.style.paddingLeft = level + "px";
+    el.style.marginLeft = level + DEFAULT_MARGIN + "px";
   }
 }
 
@@ -135,8 +134,8 @@ function isLeaf(item) {
 }
 
 module.exports = {
-  buildTree: function(data) {
-    createTree(data);
+  buildTree: function(data, rootNode) {
+    createTree(data, rootNode);
     addTreeClickHandlers();
   }
 };

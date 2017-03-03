@@ -3,12 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Hello World!</title>
+  <title>AST Viewer</title>
   <style>
     .el-container {
       height: 100% !important;
     }
-
     .CodeMirror {
       height: 90% !important;
     }
@@ -32,7 +31,7 @@
           </div>
         </div>
         <div class="pane-one-third sidebar">
-          <div id="root" class="el-container"></div>
+          <div id="root" class="el-container tree"></div>
         </div>
       </div>
     </div>
@@ -40,8 +39,13 @@
 </body>
 
 <script>
-  // require('./tree/index.js')
-  require('./editor/index.js')
+  const Tree = require('./tree/index.js')
+  const Editor = require('./editor/index.js')
+  Editor.getAST((ast) => {
+    Tree.buildTree(ast, '#root')
+  })
+  Tree.buildTree(Editor.getAST(),'#root')
+
 </script>
 <script>
   // You can also require other files to run in this process
@@ -53,6 +57,7 @@
     // `
     // document.body.innerHTML = template
     // require('./renderer.js')
+
 </script>
 
 </html>
