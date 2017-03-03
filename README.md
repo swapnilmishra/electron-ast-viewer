@@ -7,7 +7,7 @@ yarn install or npm install
 npm start
 ```
 
-### TDB
+### TBD
 
 * Show babel generated code via prettier.
 * Support for other parsers i.e acorn,esprima
